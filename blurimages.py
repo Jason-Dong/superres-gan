@@ -19,6 +19,8 @@ class BlurImage:
             images.append(temp)
         return np.array(temp)
 
-
+#testing a code block
+'''
 a = BlurImage()
 a.blurImage("utsav-shah-R1Z2tCpl9Zk-unsplash.jpg", 16, 0.5).show()
+'''
