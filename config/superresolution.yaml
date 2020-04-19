@@ -1,0 +1,12 @@
+TASKS:
+  - Segmentation
+  - Super Resolution
+DATASET:
+  TASK_2:
+    DATASET: "Reds"
+    TRAIN_PATH: "/home/jason/Downloads/data/val/val_sharp"
+    TEST_PATH: "/home/jason/Downloads/data/val/val_sharp"
+MODEL:
+  BACKBONE: ""
+  TRAIN_BATCH_SIZE: 1
+  TEST_BATCH_SIZE: 1
