@@ -5,6 +5,8 @@ import cv2
 from torch.utils.data.dataset import Dataset
 from torchvision import transforms
 
+from PIL import Image
+
 
 class Reds(Dataset):
     """Dataset class for REDS Super Resolution"""
@@ -12,6 +14,7 @@ class Reds(Dataset):
         super(Reds, self).__init__()
 
         self.file_directory = file_path
+
         self.files = self.read_files()
 
         self.transform_image = transforms.Compose([
@@ -33,13 +36,13 @@ class Reds(Dataset):
 
     def convert_image(self, image):
         image = self.transform_image(image)
-
         return image
 
     def __getitem__(self, index):
         """Gets the small image file name and then returns both full and resized image"""
         item = self.files[index]
         root_train = "/".join(self.file_directory.split("/")[:-1]) + "/val_sharp_bicubic/X4"
+        print(root_train)
 
         small_file = os.path.join(root_train, "/".join(item.split("/")[-2:]))
 
@@ -48,11 +51,24 @@ class Reds(Dataset):
 
         small_image = cv2.resize(small_image, (full_image.shape[1], full_image.shape[0]))
 
+        # for testing
+        # self.print_image_to_screen(full_image)
+        # self.print_image_to_screen(small_image)
+
         full_image = self.convert_image(full_image)
         small_image = self.convert_image(small_image)
 
         return small_image, full_image
 
+    @staticmethod
+    def print_image_to_screen(data):
+        """
+        Used for debugging purposes.
+        """
+        img = Image.fromarray(data, 'RGB')
+        img.show()
 
 if __name__ == '__main__':
-    reds = Reds("/home/jason/Downloads/val/val_sharp")
+    #reds = Reds("/home/jason/Downloads/val/val_sharp")
+    reds = Reds("./REDS/val/val_sharp")
+    sml_img, big_img = reds.__getitem__(300)
