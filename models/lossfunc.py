@@ -3,11 +3,9 @@ import torch
 from torch.autograd import Variable
 
 class PerceptualLoss(nn.Module):
-
     """
     Loss network is like VGG relu2_2
     """
-
     def __init__(self, loss_network):
         super(PerceptualLoss, self).__init__()
         self.loss_network = loss_network
