@@ -12,6 +12,9 @@ from lib import datasets
 from lib import models
 from lib import core
 
+from torchvision.models import vgg16
+from lossfunction import PerceptualLoss
+
 
 def parse_args():
     """Returns args for training session"""
@@ -80,8 +83,18 @@ def train(backbone, task_1_net, task_2_net, trainloader_1, trainloader_2, config
     task_1_net.train()
     task_2_net.train()
 
+    #added loss function
+    vgg = vgg16(pretrained=True)
+    relu2_2 = nn.Sequential(*list(vgg.features)[:9])
+    relu2_2.eval()
+    relu2_2.cuda()
+
     criterion_task_1 = core.CrossEntropy()
+    '''
     criterion_task_2 = torch.nn.MSELoss()
+    '''
+    criterion_task_2 = PerceptualLoss(loss_network=relu2_2)
+    
     train_loss, train_loss_2 = 0.0, 0.0
     count, count2 = 0, 0
 
