@@ -55,7 +55,7 @@ def train(model, train, criterion, optimizer, batch_size=32,
         val_loader = DataLoader(validation_data, batch_size, shuffle, num_workers=num_workers)
     else:
         print('Train on {} samples'.format(len(train)))
-    train_loader = DataLoader(train, batch_size, shuffle, num_workers=num_workers)
+    train_loader = DataLoader(train, batch_size, shuffle, num_workers=num_workers) #Add our data loader here
     history = defaultdict(list)
     t = tqdm_notebook(range(nb_epoch), total=nb_epoch)
     for epoch in t:
@@ -80,12 +80,3 @@ def validate(model, val_loader, criterion):
         loss = criterion(output, target)
         val_loss.update(loss.data[0])
     return val_loss.avg
-
-
-def save_checkpoint(model_state, optimizer_state, filename, epoch=None, is_best=False):
-    state = dict(model_state=model_state,
-                 optimizer_state=optimizer_state,
-                 epoch=epoch)
-    torch.save(state, filename)
-    if is_best:
-        copyfile(filename, 'model_best.pth.tar')
