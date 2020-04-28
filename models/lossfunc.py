@@ -3,12 +3,10 @@ import torch
 from torch.autograd import Variable
 
 class PerceptualLoss(nn.Module):
-
     """
     Loss network is like VGG relu2_2. The PerceptualLoss is one
     that uses target features rather than per pixel losses.
     """
-
     def __init__(self, loss_network):
         super(PerceptualLoss, self).__init__()
         self.loss_network = loss_network
