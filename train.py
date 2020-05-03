@@ -8,12 +8,13 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from lib import datasets
+'''from lib import datasets
 from lib import models
 from lib import core
+'''
 
 from torchvision.models import vgg16
-from lossfunction import PerceptualLoss
+from models.lossfunc import PerceptualLoss
 
 
 def parse_args():
@@ -94,7 +95,7 @@ def train(backbone, task_1_net, task_2_net, trainloader_1, trainloader_2, config
     criterion_task_2 = torch.nn.MSELoss()
     '''
     criterion_task_2 = PerceptualLoss(loss_network=relu2_2)
-    
+
     train_loss, train_loss_2 = 0.0, 0.0
     count, count2 = 0, 0
 
