@@ -13,14 +13,14 @@ from torchvision.models import vgg16
 from torchvision.models import densenet
 from models.lossfunc import PerceptualLoss
 
-def setup_data(file_path_train, file_path_test, batch):
+def setup_data(file_path_train, file_path_test, batch, num_w):
     train_set_task_2 = VimeoDataset(file_path_train)
     test_set_task_2 = VimeoDataset(file_path_test)
 
     trainloader_task_2 = torch.utils.data.DataLoader(train_set_task_2, batch_size=batch,
-                                                     shuffle=True, num_workers=1)
+                                                     shuffle=True, num_workers=num_w)
     testloader_task_2 = torch.utils.data.DataLoader(test_set_task_2, batch_size=batch,
-                                                    shuffle=False, num_workers=1)
+                                                    shuffle=False, num_workers=num_w)
 
     return trainloader_task_2, testloader_task_2
 
