@@ -45,14 +45,15 @@ def setup_optimizer(backbone, task_1_net, task_2_net, config):
     return optimizer_1, optimizer_2
 
 
-def train(task_2_net, trainloader_2, opt):
+def train(task_2_net, trainloader_2, opt, cuda_enabled=True):
     optimizer_2 = opt
     task_2_net.train()
     #added loss function
     vgg = vgg16(pretrained=True)
     relu2_2 = nn.Sequential(*list(vgg.features)[:9])
     relu2_2.eval()
-    relu2_2.cuda()
+    if(cuda_enabled):
+        relu2_2.cuda()
     criterion_task_2 = PerceptualLoss(loss_network=relu2_2)
     train_loss_2 = 0.0, 0.0
     count2 = 0, 0
@@ -60,7 +61,8 @@ def train(task_2_net, trainloader_2, opt):
 
     with tqdm(total=len(trainloader_2)) as pbar:
         for batch_idx, (inputs, labels) in enumerate(trainloader_2):
-            inputs, labels = inputs.cuda(), labels.cuda()
+            if (cuda_enabled):
+                inputs, labels = inputs.cuda(), labels.cuda()
             outputs = task_2_net(inputs)
             loss = criterion_task_2(outputs, labels)
             train_loss_2 += loss.item()
@@ -79,14 +81,16 @@ def test(task_2_net, testloader_task_2):
     vgg = vgg16(pretrained=True)
     relu2_2 = nn.Sequential(*list(vgg.features)[:9])
     relu2_2.eval()
-    relu2_2.cuda()
+    if(cuda_enabled):
+        relu2_2.cuda()
     criterion_task_2 = PerceptualLoss(loss_network=relu2_2)
     test_loss_2 = 0.0, 0.0
     psnr_running_sum, count, count2 = 0.0, 0, 0
     with torch.no_grad():
         with tqdm(total=len(testloader_task_2)) as pbar:
             for batch_idx, (inputs, labels) in enumerate(testloader_task_2):
-                inputs, labels = inputs.cuda(), labels.cuda()
+                if(cuda_enabled):
+                    inputs, labels = inputs.cuda(), labels.cuda()
                 outputs = task_2_net(features)
                 loss = criterion_task_2(outputs, labels)
                 test_loss_2 += loss.item()
