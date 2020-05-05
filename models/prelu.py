@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-
+import torch.nn.functional as F
 #Using PReLU instead of leaky relu since it learns the parameter
 # 'a' instead of using 0.01 like Leaky relu.
 '''

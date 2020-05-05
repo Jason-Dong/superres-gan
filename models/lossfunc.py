@@ -1,6 +1,7 @@
 from torch import nn
 import torch
 from torch.autograd import Variable
+import torch.nn.functional as F
 
 class PerceptualLoss(nn.Module):
     """
