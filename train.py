@@ -84,7 +84,7 @@ def test(task_2_net, testloader_task_2):
     if(cuda_enabled):
         relu2_2.cuda()
     criterion_task_2 = PerceptualLoss(loss_network=relu2_2)
-    test_loss_2 = 0.0
+    test_loss_2 = 0.0, 0.0
     count, count2 = 0, 0
     with torch.no_grad():
         with tqdm(total=len(testloader_task_2)) as pbar:
