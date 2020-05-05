@@ -28,7 +28,8 @@ class VimeoDataset(Dataset):
         """Currently stores the full sized image path only"""
         total_files = []
 
-        folders = [f for f in listdir(self.file_directory) if not isfile(join(self.file_directory, f))]
+        folders = ["training_data_1"]
+        print(folders)
         for folder in folders:
             for frame in listdir(folder):
                 # print(os.path.join(folder, frame))
@@ -42,26 +43,35 @@ class VimeoDataset(Dataset):
     def __getitem__(self, index):
         """Gets the small image file name and then returns both full and resized image"""
         item = self.files[index]
+        print(item)
         full_image = cv2.imread(item, cv2.IMREAD_COLOR)
         small_image = full_image
-        #small_image = cv2.GaussianBlur(full_image, (7,7),4)
+        small_image = cv2.GaussianBlur(full_image, (7,7),4)
         width, height = full_image.shape[0], full_image.shape[1]
-        width, height = int(width/2), int(height/2)
-
+        width, height = int(width/4), int(height/4)
+        os.chdir(self.file_directory)
         #resizing
-        full_image = cv2.resize(full_image, (height, width))
+        #full_image = cv2.resize(full_image, (height, width))
         small_image = cv2.resize(full_image, (height, width))
 
         #cropping
+        '''
         width, height = full_image.shape[0], full_image.shape[1]
         full_image = full_image[:, int((-width+height)/2):int((width+height)/2)]
         small_image = small_image[:, int((-width+height)/2):int((width+height)/2)]
+        '''
+
 
         # for testing
-        '''cv2.imshow('original image',full_image)
+        '''
+        cv2.imshow('original image',full_image)
         cv2.imshow('blurred image',small_image)
-        cv2.waitKey(0)]'''
+        cv2.waitKey(0)
+        '''
+        cv2.imwrite("test.jpg", small_image)
+        cv2.imwrite("testbig.jpg", full_image)
 
+        print(full_image.shape, small_image.shape)
         full_image = self.convert_image(full_image)
         small_image = self.convert_image(small_image)
         return small_image, full_image

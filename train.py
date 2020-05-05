@@ -55,9 +55,9 @@ def train(task_2_net, trainloader_2, opt, cuda_enabled=True):
     if(cuda_enabled):
         relu2_2.cuda()
     criterion_task_2 = PerceptualLoss(loss_network=relu2_2)
-    train_loss_2 = 0.0, 0.0
-    count2 = 0, 0
-    psnr_running_sum = 0.0
+    train_loss_2 = 0.0
+    count2 = 0
+    #psnr_running_sum = 0.0
 
     with tqdm(total=len(trainloader_2)) as pbar:
         for batch_idx, (inputs, labels) in enumerate(trainloader_2):
@@ -65,14 +65,15 @@ def train(task_2_net, trainloader_2, opt, cuda_enabled=True):
                 inputs, labels = inputs.cuda(), labels.cuda()
             outputs = task_2_net(inputs)
             loss = criterion_task_2(outputs, labels)
-            #train_loss_2 += loss.item()
+            print(loss.item())
+            train_loss_2 += loss.item()
             optimizer_2.zero_grad()
             loss.backward()
             optimizer_2.step()
             #psnr_running_sum += core.get_PSNR(outputs, labels)
             count2 += 1
             pbar.update(1)
-            pbar.set_description("Current training loss: %.4f, PSNR: %.4f" % ((train_loss_2 * 1. / count2)))
+            pbar.set_description("Current training loss: %.4f" % ((train_loss_2 * 1. / count2)))
 
 
 def test(task_2_net, testloader_task_2):
@@ -83,8 +84,8 @@ def test(task_2_net, testloader_task_2):
     if(cuda_enabled):
         relu2_2.cuda()
     criterion_task_2 = PerceptualLoss(loss_network=relu2_2)
-    test_loss_2 = 0.0, 0.0
-    count, count2 = 0, 0
+    test_loss_2 = 0.0
+    count2 = 0
     with torch.no_grad():
         with tqdm(total=len(testloader_task_2)) as pbar:
             for batch_idx, (inputs, labels) in enumerate(testloader_task_2):
@@ -92,12 +93,10 @@ def test(task_2_net, testloader_task_2):
                     inputs, labels = inputs.cuda(), labels.cuda()
                 outputs = task_2_net(features)
                 loss = criterion_task_2(outputs, labels)
-                #test_loss_2 += loss.item()
+                test_loss_2 += loss.item()
                 #psnr_running_sum += core.get_PSNR(outputs, labels)
                 count2 += 1
                 pbar.update(1)
-                #pbar.set_description("Current testing loss: %.4f, PSNR: %.4f" % ((test_loss_2 * 1. / count2),
-                #                                                                  (psnr_running_sum / count2)))
                 pbar.set_description("Current testing loss: %.4f" % ((test_loss_2 * 1. / count2)))
 
 
