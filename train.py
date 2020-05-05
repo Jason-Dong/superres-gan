@@ -69,11 +69,10 @@ def train(task_2_net, trainloader_2, opt, cuda_enabled=True):
             optimizer_2.zero_grad()
             loss.backward()
             optimizer_2.step()
-            psnr_running_sum += core.get_PSNR(outputs, labels)
+            #psnr_running_sum += core.get_PSNR(outputs, labels)
             count2 += 1
             pbar.update(1)
-            pbar.set_description("Current training loss: %.4f, PSNR: %.4f" % ((train_loss_2 * 1. / count2),
-                                 (psnr_running_sum / count2)))
+            pbar.set_description("Current training loss: %.4f, PSNR: %.4f" % ((train_loss_2 * 1. / count2)))
 
 
 def test(task_2_net, testloader_task_2):
