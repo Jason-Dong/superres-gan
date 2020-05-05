@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 class ConvBatchRelu(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, padding=0):

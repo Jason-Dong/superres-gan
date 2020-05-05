@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 #A basic resnet block we'll use.
 class ResBlock(nn.Module):
