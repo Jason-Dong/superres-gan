@@ -36,7 +36,7 @@ def setup_optimizer(backbone, task_1_net, task_2_net, config):
          {'params': [p[1] for p in task_1_params], 'lr': .001}
          ],
         lr=.001, momentum=0.9, weight_decay=5e-4)
-
+    
     optimizer_2 = optim.SGD(
         [{'params': [p[1] for p in backbone_params], 'lr': .0001},
          {'params': [p[1] for p in task_2_params], 'lr': .001}
@@ -51,7 +51,7 @@ def train(task_2_net, trainloader_2, opt, cuda_enabled=True):
     task_2_net.train()
     #added loss function
     vgg = vgg16(pretrained=True)
-    relu2_2 = nn.Sequential(*list(vgg.features)[:9])
+    relu2_2 = nn.Sequential(*list(vgg.features)[:16])
     relu2_2.eval()
     if(cuda_enabled):
         relu2_2.cuda()
@@ -80,7 +80,7 @@ def train(task_2_net, trainloader_2, opt, cuda_enabled=True):
 def test(task_2_net, testloader_task_2):
     task_2_net.eval()
     vgg = vgg16(pretrained=True)
-    relu2_2 = nn.Sequential(*list(vgg.features)[:9])
+    relu2_2 = nn.Sequential(*list(vgg.features)[:16])
     relu2_2.eval()
     if(cuda_enabled):
         relu2_2.cuda()
