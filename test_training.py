@@ -10,7 +10,7 @@ import cv2
 import torch
 
 path_to_data = "./"
-use_cuda = False
+use_cuda = True
 
 super_res_data = VimeoDataset(path_to_data)
 
