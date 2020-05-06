@@ -10,6 +10,7 @@ import torch.optim as optim
 from data.vimeo_dataset import VimeoDataset
 
 from torchvision.models import vgg16
+from torch.autograd import Variable
 from torchvision.models import densenet
 from models.lossfunc import PerceptualLoss
 
@@ -62,7 +63,7 @@ def train(task_2_net, trainloader_2, opt, cuda_enabled=True):
     with tqdm(total=len(trainloader_2)) as pbar:
         for batch_idx, (inputs, labels) in enumerate(trainloader_2):
             if (cuda_enabled):
-                inputs, labels = inputs.cuda(), labels.cuda()
+                inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
             outputs = task_2_net(inputs)
             loss = criterion_task_2(outputs, labels)
             print(loss.item())
@@ -90,7 +91,7 @@ def test(task_2_net, testloader_task_2):
         with tqdm(total=len(testloader_task_2)) as pbar:
             for batch_idx, (inputs, labels) in enumerate(testloader_task_2):
                 if(cuda_enabled):
-                    inputs, labels = inputs.cuda(), labels.cuda()
+                    inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
                 outputs = task_2_net(features)
                 loss = criterion_task_2(outputs, labels)
                 test_loss_2 += loss.item()

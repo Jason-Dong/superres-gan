@@ -19,12 +19,12 @@ class VimeoDataset(Dataset):
 
         self.transform_image_small = transforms.Compose([
             transforms.ToPILImage(),
-            transforms.Resize((180,256), interpolation=Image.NEAREST),
+            transforms.Resize((180,256)),
             transforms.ToTensor()
         ])
         self.transform_image_big = transforms.Compose([
             transforms.ToPILImage(),
-            transforms.Resize((720,1024), interpolation=Image.NEAREST),
+            transforms.Resize((720,1024)),
             transforms.ToTensor()
         ])
 
