@@ -34,9 +34,9 @@ for epoch in range(epochs):
     print("Current Epoch: %d" % epoch)
     train(model, trainloader_task_2, optimizer, cuda_enabled=use_cuda)
     test(model, testloader_task_2, cuda_enabled=use_cuda)
-    filename = "model" + str(epoch) + ".pt" 
+    filename = 'model' +str(epoch) + '.pt'
     torch.save(model, filename)
-
+    
 # path_to_test_img = "./output.jpg"
 # x = cv2.imread(path_to_test_img, cv2.IMREAD_COLOR)
 # x = super_res_data.convert_image_small(x)
