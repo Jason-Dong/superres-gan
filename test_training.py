@@ -21,7 +21,7 @@ if use_cuda:
 
 optimizer = Adam(model.parameters(), lr=1e-3) #parameters returns an iterator over the models parameters
 
-criterion = PerceptualLoss(loss_network=relu2_2)
+#criterion = PerceptualLoss(loss_network=relu2_2)
 
 ftrain = "./"#file path to train
 ftest = "./"#file path to test
@@ -36,7 +36,7 @@ for epoch in range(epochs):
     test(model, testloader_task_2, cuda_enabled=use_cuda)
     filename = 'model' +str(epoch) + '.pt'
     torch.save(model, filename)
-    
+
 # path_to_test_img = "./output.jpg"
 # x = cv2.imread(path_to_test_img, cv2.IMREAD_COLOR)
 # x = super_res_data.convert_image_small(x)
