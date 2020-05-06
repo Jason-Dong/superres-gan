@@ -33,6 +33,7 @@ def convert_video_to_frames(path, func):
 
         os.chdir(directory) 
       
+        frame_count = 1
         while success: 
             # vidObj object calls read 
             # function extract frames 
@@ -41,11 +42,13 @@ def convert_video_to_frames(path, func):
             #applied function to image
             image = func(image)
 
-            # Saves the frames with frame-count 
-            cv2.imwrite("frame%d.jpg" % count, image) 
-      
-            count += 1
-        
+            if frame_count % 4 == 0:
+                # Saves the frames with frame-count 
+                cv2.imwrite("frame%d.jpg" % count, image) 
+                #frame_count = 1
+                count += 1
+            frame_count +=1
+            #count += 1
 
         os.chdir('..') 
 
@@ -61,13 +64,13 @@ def convert_frames_to_video(pathIn, pathOut, fps):
         #reading each files
         img = cv2.imread(filename)
         try:
-        	height, width, layers = img.shape
-        	size = (width,height)
-        	#print(filename)
-        	#inserting the frames into an image array
-        	frame_array.append(img)
+            height, width, layers = img.shape
+            size = (width,height)
+            #print(filename)
+            #inserting the frames into an image array
+            frame_array.append(img)
         except:
-        	continue
+            continue
  
     out = cv2.VideoWriter(pathOut,cv2.VideoWriter_fourcc(*'MP4V'), fps, size)
  
@@ -77,10 +80,10 @@ def convert_frames_to_video(pathIn, pathOut, fps):
     out.release()
 
 if __name__ == '__main__':
-	print('[INFO] Processing Video Frames')
-	convert_video_to_frames('./', lambda x: x)
-	#print('[INFO] Compiling Frames')
-	#pathIn= './frames/'
-	#pathOut = 'video.mp4'
-	#fps = 25.0
-	#convert_frames_to_video(pathIn, pathOut, fps)
+    print('[INFO] Processing Video Frames')
+    convert_video_to_frames('./', lambda x: x)
+    #print('[INFO] Compiling Frames')
+    #pathIn= './frames/'
+    #pathOut = 'video.mp4'
+    #fps = 25.0
+    #convert_frames_to_video(pathIn, pathOut, fps)
